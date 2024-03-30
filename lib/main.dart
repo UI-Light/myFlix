@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myflix/features/home/presentation/view/home_page.dart';
+import 'package:myflix/views/index_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const IndexPage(),
     );
   }
 }

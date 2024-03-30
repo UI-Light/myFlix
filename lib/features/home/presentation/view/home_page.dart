@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myflix/core/presentation/widgets/movie_box.dart';
+import 'package:myflix/views/index_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,33 +10,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedIndex = 0;
-
-  void onTap(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
         backgroundColor: Colors.black,
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          elevation: 0,
-          centerTitle: true,
-          title: const Text(
-            'MyFlix',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 18,
-            ),
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'MyFlix',
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 18,
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.only(left: 10.0),
+      ),
+      body: const Padding(
+        padding: EdgeInsets.only(left: 10.0),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -95,18 +88,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: onTap,
-          backgroundColor: Colors.black,
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.videocam), label: "Movies"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.folder), label: "Watch List"),
-            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          ],
         ),
       ),
     );
