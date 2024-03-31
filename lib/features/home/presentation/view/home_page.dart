@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myflix/core/presentation/widgets/movie_box.dart';
-import 'package:myflix/views/index_page.dart';
+import 'package:myflix/features/home/presentation/widgets/movie_scroll_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,62 +29,10 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.only(left: 10.0),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Trending',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 2),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    MovieBox(),
-                    MovieBox(),
-                    MovieBox(),
-                  ],
-                ),
-              ),
-              Text(
-                'Top Rated',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    MovieBox(),
-                    MovieBox(),
-                    MovieBox(),
-                  ],
-                ),
-              ),
-              Text(
-                'Popular',
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    MovieBox(),
-                    MovieBox(),
-                    MovieBox(),
-                  ],
-                ),
-              ),
+              MovieScrollView(title: 'Trending'),
+              MovieScrollView(title: 'Top Rated'),
+              MovieScrollView(title: 'Popular'),
             ],
           ),
         ),

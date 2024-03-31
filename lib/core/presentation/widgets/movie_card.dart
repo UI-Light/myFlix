@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MovieBox extends StatefulWidget {
-  const MovieBox({super.key});
+class MovieCard extends StatelessWidget {
+  const MovieCard({super.key});
 
-  @override
-  State<MovieBox> createState() => _MovieBoxState();
-}
-
-class _MovieBoxState extends State<MovieBox> {
   @override
   Widget build(BuildContext context) {
     return Padding(
