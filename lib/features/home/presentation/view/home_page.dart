@@ -25,16 +25,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.only(left: 10.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              MovieScrollView(title: 'Trending'),
-              MovieScrollView(title: 'Top Rated'),
-              MovieScrollView(title: 'Popular'),
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 10.0),
+        child: ListView(
+          children: const [
+            MovieScrollView(title: 'Trending'),
+            MovieScrollView(title: 'Top Rated'),
+            MovieScrollView(title: 'Popular'),
+          ],
         ),
       ),
     );

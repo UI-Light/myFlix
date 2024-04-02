@@ -8,11 +8,10 @@ class MovieCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
       child: Container(
-        height: MediaQuery.of(context).size.height / 4,
-        width: MediaQuery.of(context).size.width / 2.8,
+        height: 180,
+        width: 135,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
           image: const DecorationImage(
             fit: BoxFit.cover,
             image: AssetImage(
