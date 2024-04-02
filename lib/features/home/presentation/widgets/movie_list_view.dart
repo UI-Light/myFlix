@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:myflix/core/presentation/widgets/movie_card.dart';
 
-class MovieScrollView extends StatelessWidget {
+class MovieListView extends StatelessWidget {
   final String title;
-  const MovieScrollView({super.key, required this.title});
+  const MovieListView({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,12 @@ class MovieScrollView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 2),
-        const SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
+        SizedBox(
+          height: 200,
+          width: MediaQuery.of(context).size.width,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: const [
               MovieCard(),
               MovieCard(),
               MovieCard(),

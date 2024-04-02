@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
+        scaffoldBackgroundColor: Colors.black,
       ),
       home: const IndexPage(),
     );

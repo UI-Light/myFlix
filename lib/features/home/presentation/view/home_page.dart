@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myflix/features/home/presentation/widgets/movie_scroll_view.dart';
+import 'package:myflix/features/home/presentation/widgets/movie_list_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,7 +12,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
@@ -29,9 +28,9 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(left: 10.0),
         child: ListView(
           children: const [
-            MovieScrollView(title: 'Trending'),
-            MovieScrollView(title: 'Top Rated'),
-            MovieScrollView(title: 'Popular'),
+            MovieListView(title: 'Trending'),
+            MovieListView(title: 'Top Rated'),
+            MovieListView(title: 'Popular'),
           ],
         ),
       ),
