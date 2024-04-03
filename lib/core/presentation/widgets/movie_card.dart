@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myflix/features/details/presentation/view/movie_details_page.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard({super.key});
@@ -10,11 +9,7 @@ class MovieCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const MovieDetailsPage(),
-            ),
-          );
+          Navigator.pushNamed(context, '/details');
         },
         child: Container(
           height: 180,
