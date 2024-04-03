@@ -19,19 +19,22 @@ class MovieListView extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 14),
         SizedBox(
           height: 200,
           width: MediaQuery.of(context).size.width,
-          child: ListView(
+          child: ListView.separated(
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return const MovieCard();
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(width: 8);
+            },
             scrollDirection: Axis.horizontal,
-            children: const [
-              MovieCard(),
-              MovieCard(),
-              MovieCard(),
-            ],
           ),
         ),
+        const SizedBox(height: 14),
       ],
     );
   }

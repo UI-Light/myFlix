@@ -27,12 +27,12 @@ class _SimilarMoviesListViewState extends State<SimilarMoviesListView> {
         SizedBox(
           height: 300,
           child: GridView(
-            //shrinkWrap: true,
-            // physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 0,
-              childAspectRatio: 2 / 4,
+              childAspectRatio: 3 / 4,
+              mainAxisSpacing: 6,
               crossAxisCount: 3,
+              crossAxisSpacing: 2,
             ),
             scrollDirection: Axis.vertical,
             children: const [

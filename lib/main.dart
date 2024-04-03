@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myflix/core/routes.dart';
 import 'package:myflix/features/details/presentation/view/movie_details_page.dart';
 import 'package:myflix/views/index_page.dart';
 
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/': (context) => const IndexPage(),
-        '/details': (context) => const MovieDetailsPage(),
+        Routes.homeRoute: (context) => const IndexPage(),
+        Routes.detailsRoute: (context) => const MovieDetailsPage(),
       },
       theme: ThemeData(
         useMaterial3: true,
