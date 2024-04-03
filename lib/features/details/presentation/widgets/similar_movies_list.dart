@@ -30,6 +30,8 @@ class _SimilarMoviesListViewState extends State<SimilarMoviesListView> {
             //shrinkWrap: true,
             // physics: NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisSpacing: 0,
+              childAspectRatio: 2 / 4,
               crossAxisCount: 3,
             ),
             scrollDirection: Axis.vertical,
