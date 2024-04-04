@@ -19,7 +19,7 @@ class MovieListView extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
         SizedBox(
           height: 200,
           width: MediaQuery.of(context).size.width,
@@ -34,7 +34,7 @@ class MovieListView extends StatelessWidget {
             scrollDirection: Axis.horizontal,
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
       ],
     );
   }

@@ -26,7 +26,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
           ),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               children: [
                 const Text(
                   'Cinema Paradiso',
@@ -35,7 +35,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       fontSize: 25,
                       fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 RichText(
                   text: TextSpan(
                     style: const TextStyle(fontSize: 16),
@@ -51,7 +51,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 16),
                 const Text(
                   'A film maker recalls his childhood, when he fell in love with the movies at his village\'s theater and formed a deep friendship with the theater\'s projectionist.',
                   style: TextStyle(

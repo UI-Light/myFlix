@@ -23,14 +23,14 @@ class _SimilarMoviesListViewState extends State<SimilarMoviesListView> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 4),
         SizedBox(
           height: 300,
           child: GridView(
             padding: EdgeInsets.zero,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 3 / 4,
-              mainAxisSpacing: 6,
+              mainAxisSpacing: 4,
               crossAxisCount: 3,
               crossAxisSpacing: 2,
             ),

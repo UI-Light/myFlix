@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
+        padding: const EdgeInsets.only(left: 8.0),
         child: ListView(
           children: const [
             MovieListView(title: 'Trending'),
