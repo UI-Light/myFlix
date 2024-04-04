@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:myflix/core/routes.dart';
 
 class MovieCard extends StatelessWidget {
-  const MovieCard({super.key});
+  const MovieCard({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(Routes.detailsRoute);
+      },
       child: Container(
         height: 180,
         width: 135,

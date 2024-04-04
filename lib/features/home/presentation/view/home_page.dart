@@ -24,15 +24,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
-        child: ListView(
-          children: const [
-            MovieListView(title: 'Trending'),
-            MovieListView(title: 'Top Rated'),
-            MovieListView(title: 'Popular'),
-          ],
-        ),
+      body: ListView(
+        padding: const EdgeInsets.only(left: 8.0),
+        children: const [
+          MovieListView(title: 'Trending'),
+          MovieListView(title: 'Top Rated'),
+          MovieListView(title: 'Popular'),
+        ],
       ),
     );
   }

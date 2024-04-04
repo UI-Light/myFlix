@@ -3,7 +3,8 @@ import 'package:myflix/core/presentation/widgets/movie_card.dart';
 
 class MovieListView extends StatelessWidget {
   final String title;
-  const MovieListView({super.key, required this.title});
+  final double size;
+  const MovieListView({super.key, required this.title, this.size = 22});
 
   @override
   Widget build(BuildContext context) {
@@ -12,25 +13,28 @@ class MovieListView extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 22,
+            fontSize: size,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 12),
         SizedBox(
           height: 200,
           width: MediaQuery.of(context).size.width,
-          child: ListView(
+          child: ListView.separated(
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              return const MovieCard();
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(width: 8);
+            },
             scrollDirection: Axis.horizontal,
-            children: const [
-              MovieCard(),
-              MovieCard(),
-              MovieCard(),
-            ],
           ),
         ),
+        const SizedBox(height: 12),
       ],
     );
   }
