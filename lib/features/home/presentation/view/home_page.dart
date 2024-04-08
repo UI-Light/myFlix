@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myflix/features/home/presentation/view_model/home_view_model.dart';
 import 'package:myflix/features/home/presentation/widgets/movie_list_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +10,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  HomeViewModel homeViewModel = HomeViewModel();
+
+  @override
+  void initState() {
+    homeViewModel.getNowPlaying();
+    homeViewModel.getTopRatedMovies();
+    homeViewModel.getPopularMovies();
+    homeViewModel.getUpcomingMovies();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,10 +38,39 @@ class _HomePageState extends State<HomePage> {
       ),
       body: ListView(
         padding: const EdgeInsets.only(left: 8.0),
-        children: const [
-          MovieListView(title: 'Trending'),
-          MovieListView(title: 'Top Rated'),
-          MovieListView(title: 'Popular'),
+        children: [
+          ValueListenableBuilder(
+              valueListenable: homeViewModel.trendingMovies,
+              builder: (context, trendingMovies, _) {
+                return MovieListView(
+                  title: 'Trending',
+                  movies: trendingMovies,
+                );
+              }),
+          ValueListenableBuilder(
+              valueListenable: homeViewModel.topRatedMovies,
+              builder: (context, topRatedMovies, _) {
+                return MovieListView(
+                  title: 'Top Rated',
+                  movies: topRatedMovies,
+                );
+              }),
+          ValueListenableBuilder(
+              valueListenable: homeViewModel.popularMovies,
+              builder: (context, popularMovies, _) {
+                return MovieListView(
+                  title: 'Popular',
+                  movies: popularMovies,
+                );
+              }),
+          ValueListenableBuilder(
+              valueListenable: homeViewModel.upcomingMovies,
+              builder: (context, upcomingMovies, _) {
+                return MovieListView(
+                  title: 'Upcoming',
+                  movies: upcomingMovies,
+                );
+              }),
         ],
       ),
     );

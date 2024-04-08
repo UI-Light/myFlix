@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:myflix/core/models/movie_model.dart';
 import 'package:myflix/core/presentation/widgets/movie_card.dart';
 
 class MovieListView extends StatelessWidget {
   final String title;
   final double size;
-  const MovieListView({super.key, required this.title, this.size = 22});
+  final List<Movie> movies;
+  const MovieListView(
+      {super.key, required this.title, this.size = 22, required this.movies});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +27,11 @@ class MovieListView extends StatelessWidget {
           height: 200,
           width: MediaQuery.of(context).size.width,
           child: ListView.separated(
-            itemCount: 3,
+            itemCount: movies.length,
             itemBuilder: (context, index) {
-              return const MovieCard();
+              return MovieCard(
+                movie: movies[index],
+              );
             },
             separatorBuilder: (context, index) {
               return const SizedBox(width: 8);
