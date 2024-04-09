@@ -15,7 +15,7 @@ class ApiClient {
           connectTimeout: const Duration(seconds: 60),
           receiveTimeout: const Duration(seconds: 60),
           headers: {
-            HttpHeaders.authorizationHeader: token,
+            HttpHeaders.authorizationHeader: 'Bearer $token',
           },
         ),
       );

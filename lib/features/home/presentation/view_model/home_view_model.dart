@@ -89,4 +89,11 @@ class HomeViewModel {
       _logger.log(e);
     }
   }
+
+  void initialize() {
+    getNowPlaying();
+    getTopRatedMovies();
+    getPopularMovies();
+    getUpcomingMovies();
+  }
 }

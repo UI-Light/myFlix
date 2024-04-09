@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myflix/core/models/movie_model.dart';
+import 'package:myflix/core/presentation/widgets/movie_loading_card.dart';
 import 'package:myflix/core/routes.dart';
 
 class MovieCard extends StatelessWidget {
@@ -16,18 +18,20 @@ class MovieCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).pushNamed(Routes.detailsRoute);
       },
-      child: Container(
-        height: 180,
-        width: 135,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: NetworkImage(
-              movie.posterUrl,
+      child: CachedNetworkImage(
+        imageUrl: movie.posterUrl,
+        imageBuilder: (context, imageProvider) => Container(
+          height: 180,
+          width: 135,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: imageProvider,
             ),
           ),
         ),
+        placeholder: (context, url) => const MovieLoadingCard(),
       ),
     );
   }

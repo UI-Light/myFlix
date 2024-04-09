@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:myflix/core/data/api_client.dart';
 import 'package:myflix/core/models/movie_model.dart';
+import 'package:myflix/core/models/result_model.dart';
 import 'package:myflix/core/utils/logger.dart';
 
 class HomeRepository {
@@ -19,9 +20,7 @@ class HomeRepository {
     _logger.log("this is response type: ${response.runtimeType}");
 
     if (response.statusCode == 200) {
-      List<Movie> movies = List<Movie>.from(
-        response.data.map((element) => Movie.fromJson(element)),
-      );
+      List<Movie> movies = Result.fromJson(response.data).movieResults;
       return movies;
     } else {
       throw Exception('Cannot load movies data');
@@ -32,9 +31,7 @@ class HomeRepository {
     final response = await _client.dio.get('top_rated?language=en-US&page=1');
 
     if (response.statusCode == 200) {
-      List<Movie> movies = List<Movie>.from(
-        response.data.map((element) => Movie.fromJson(element)),
-      );
+      List<Movie> movies = Result.fromJson(response.data).movieResults;
       return movies;
     } else {
       throw Exception('Cannot load movies data');
@@ -45,9 +42,7 @@ class HomeRepository {
     final response = await _client.dio.get('popular?language=en-US&page=1');
 
     if (response.statusCode == 200) {
-      List<Movie> movies = List<Movie>.from(
-        response.data.map((element) => Movie.fromJson(element)),
-      );
+      List<Movie> movies = Result.fromJson(response.data).movieResults;
       return movies;
     } else {
       throw Exception('Cannot load movies data');
@@ -58,9 +53,7 @@ class HomeRepository {
     final response = await _client.dio.get('upcoming?language=en-US&page=1');
 
     if (response.statusCode == 200) {
-      List<Movie> movies = List<Movie>.from(
-        response.data.map((element) => Movie.fromJson(element)),
-      );
+      List<Movie> movies = Result.fromJson(response.data).movieResults;
       return movies;
     } else {
       throw Exception('Cannot load movies data');

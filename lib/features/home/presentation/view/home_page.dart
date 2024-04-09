@@ -14,11 +14,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    homeViewModel.getNowPlaying();
-    homeViewModel.getTopRatedMovies();
-    homeViewModel.getPopularMovies();
-    homeViewModel.getUpcomingMovies();
     super.initState();
+    homeViewModel.initialize();
   }
 
   @override

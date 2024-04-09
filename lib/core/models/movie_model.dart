@@ -15,10 +15,12 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> data) {
     return Movie(
         movieTitle: data['original_title'],
-        posterUrl: data['poster_path'],
-        backdropUrl: data['backdrop_path'],
+        posterUrl: _mediaBaseUrl + data['poster_path'],
+        backdropUrl: _mediaBaseUrl + data['backdrop_path'],
         overview: data['overview'],
         year: data['release_date'],
         averageRating: data['vote_average']);
   }
+
+  static const String _mediaBaseUrl = "https://image.tmdb.org/t/p/original";
 }
