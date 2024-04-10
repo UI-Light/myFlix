@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         color: Colors.black,
         onRefresh: () async {
-          homeViewModel.initialize();
+          homeViewModel.refresh();
         },
         child: ListView(
           padding: const EdgeInsets.only(left: 8.0),

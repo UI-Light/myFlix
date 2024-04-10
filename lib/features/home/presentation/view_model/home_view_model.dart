@@ -55,10 +55,18 @@ class HomeViewModel {
     }
   }
 
-  void initialize() {
-    getNowPlaying();
-    getTopRatedMovies();
-    getPopularMovies();
-    getUpcomingMovies();
+  Future<void> initialize() async {
+    await getNowPlaying();
+    await getTopRatedMovies();
+    await getPopularMovies();
+    await getUpcomingMovies();
+  }
+
+  Future<void> refresh() async {
+    trendingMovies.value = [];
+    topRatedMovies.value = [];
+    popularMovies.value = [];
+    upcomingMovies.value = [];
+    await initialize();
   }
 }

@@ -10,9 +10,13 @@ class LoadingErrorCard extends StatelessWidget {
       width: 135,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        image: const DecorationImage(
-          image: AssetImage('asset/image_placeholder.jpg'),
-          fit: BoxFit.cover,
+        color: Colors.grey[900],
+      ),
+      child: Center(
+        child: Icon(
+          Icons.image_not_supported,
+          size: 60,
+          color: Colors.grey[800],
         ),
       ),
     );
