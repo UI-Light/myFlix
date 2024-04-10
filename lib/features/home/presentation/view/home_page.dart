@@ -33,42 +33,48 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.only(left: 8.0),
-        children: [
-          ValueListenableBuilder(
-              valueListenable: homeViewModel.trendingMovies,
-              builder: (context, trendingMovies, _) {
-                return MovieListView(
-                  title: 'Trending',
-                  movies: trendingMovies,
-                );
-              }),
-          ValueListenableBuilder(
-              valueListenable: homeViewModel.topRatedMovies,
-              builder: (context, topRatedMovies, _) {
-                return MovieListView(
-                  title: 'Top Rated',
-                  movies: topRatedMovies,
-                );
-              }),
-          ValueListenableBuilder(
-              valueListenable: homeViewModel.popularMovies,
-              builder: (context, popularMovies, _) {
-                return MovieListView(
-                  title: 'Popular',
-                  movies: popularMovies,
-                );
-              }),
-          ValueListenableBuilder(
-              valueListenable: homeViewModel.upcomingMovies,
-              builder: (context, upcomingMovies, _) {
-                return MovieListView(
-                  title: 'Upcoming',
-                  movies: upcomingMovies,
-                );
-              }),
-        ],
+      body: RefreshIndicator(
+        color: Colors.black,
+        onRefresh: () async {
+          homeViewModel.initialize();
+        },
+        child: ListView(
+          padding: const EdgeInsets.only(left: 8.0),
+          children: [
+            ValueListenableBuilder(
+                valueListenable: homeViewModel.trendingMovies,
+                builder: (context, trendingMovies, _) {
+                  return MovieListView(
+                    title: 'Trending',
+                    movies: trendingMovies,
+                  );
+                }),
+            ValueListenableBuilder(
+                valueListenable: homeViewModel.topRatedMovies,
+                builder: (context, topRatedMovies, _) {
+                  return MovieListView(
+                    title: 'Top Rated',
+                    movies: topRatedMovies,
+                  );
+                }),
+            ValueListenableBuilder(
+                valueListenable: homeViewModel.popularMovies,
+                builder: (context, popularMovies, _) {
+                  return MovieListView(
+                    title: 'Popular',
+                    movies: popularMovies,
+                  );
+                }),
+            ValueListenableBuilder(
+                valueListenable: homeViewModel.upcomingMovies,
+                builder: (context, upcomingMovies, _) {
+                  return MovieListView(
+                    title: 'Upcoming',
+                    movies: upcomingMovies,
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
