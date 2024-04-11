@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:myflix/core/data/api_client.dart';
+import 'package:myflix/features/details/data/details_repository.dart';
 import 'package:myflix/features/home/data/home_repository.dart';
 
 //
@@ -10,5 +11,9 @@ void registerdependencies({String baseUrl = '', String token = ''}) {
 
   GetIt.I.registerLazySingleton<HomeRepository>(
     () => HomeRepository(client: apiClient),
+  );
+
+  GetIt.I.registerLazySingleton<DetailsRepository>(
+    () => DetailsRepository(client: apiClient),
   );
 }
