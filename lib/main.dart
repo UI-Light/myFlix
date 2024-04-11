@@ -8,7 +8,9 @@ import 'package:myflix/views/index_page.dart';
 
 void main() {
   AppLogger.configure(showLogs: kDebugMode);
-  registerdependencies(baseUrl: const String.fromEnvironment('BASE_URL'));
+  registerdependencies(
+      baseUrl: const String.fromEnvironment('BASE_URL'),
+      token: const String.fromEnvironment('TMDB_READ_ACCESS_TOKEN'));
   runApp(const MyApp());
 }
 
