@@ -21,7 +21,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   @override
   void initState() {
     super.initState();
-    detailsViewModel.initialize(widget.movie);
+    detailsViewModel.getSimilarMovies(widget.movie);
   }
 
   @override
@@ -31,7 +31,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CachedNetworkImage(
-              imageUrl: widget.movie.backdropUrl!,
+              imageUrl: widget.movie.backdropUrl,
               imageBuilder: (context, imageProvider) {
                 return Container(
                   height: 280,
@@ -118,10 +118,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 const SizedBox(height: 20),
                 ValueListenableBuilder(
                     valueListenable: detailsViewModel.similarMovies,
-                    builder: (context, movie, _) {
+                    builder: (context, movies, _) {
                       return SimilarMoviesListView(
                         title: 'Similar Movies',
-                        movie: movie,
+                        movie: movies,
                       );
                     }),
               ],

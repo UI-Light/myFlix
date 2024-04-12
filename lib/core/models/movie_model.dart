@@ -1,6 +1,6 @@
 class Movie {
   final String movieTitle, posterUrl, overview;
-  final String? backdropUrl;
+  final String backdropUrl;
   final String year;
   final num averageRating;
   final int movieId;
@@ -8,7 +8,7 @@ class Movie {
   const Movie({
     required this.movieTitle,
     required this.posterUrl,
-    this.backdropUrl,
+    required this.backdropUrl,
     required this.overview,
     required this.year,
     required this.averageRating,
@@ -19,7 +19,9 @@ class Movie {
     return Movie(
         movieId: data['id'],
         movieTitle: data['original_title'],
-        posterUrl: _mediaBaseUrl + data['poster_path'],
+        posterUrl: data['poster_path'] == null
+            ? 'Unavailable'
+            : _mediaBaseUrl + data['poster_path'],
         backdropUrl: data['backdrop_path'] == null
             ? 'Unavailable'
             : _mediaBaseUrl + data['backdrop_path'],

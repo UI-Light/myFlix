@@ -19,7 +19,4 @@ class DetailsViewModel {
     }
   }
 
-  Future<void> initialize(Movie movie) async {
-    await getSimilarMovies(movie);
-  }
 }
