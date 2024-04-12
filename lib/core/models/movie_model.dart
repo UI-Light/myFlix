@@ -8,7 +8,7 @@ class Movie {
   const Movie({
     required this.movieTitle,
     required this.posterUrl,
-    required this.backdropUrl,
+    this.backdropUrl,
     required this.overview,
     required this.year,
     required this.averageRating,
@@ -20,7 +20,9 @@ class Movie {
         movieId: data['id'],
         movieTitle: data['original_title'],
         posterUrl: _mediaBaseUrl + data['poster_path'],
-        backdropUrl: _mediaBaseUrl + data['backdrop_path'] ?? 'Unavailable',
+        backdropUrl: data['backdrop_path'] == null
+            ? 'Unavailable'
+            : _mediaBaseUrl + data['backdrop_path'],
         overview: data['overview'],
         year: data['release_date'],
         averageRating: data['vote_average']);

@@ -31,7 +31,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CachedNetworkImage(
-              imageUrl: widget.movie.backdropUrl ?? 'unavailable',
+              imageUrl: widget.movie.backdropUrl!,
               imageBuilder: (context, imageProvider) {
                 return Container(
                   height: 280,
