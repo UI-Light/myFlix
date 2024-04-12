@@ -17,7 +17,7 @@ class MovieCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(Routes.detailsRoute);
+        Navigator.of(context).pushNamed(Routes.detailsRoute, arguments: movie);
       },
       child: CachedNetworkImage(
           imageUrl: movie.posterUrl,

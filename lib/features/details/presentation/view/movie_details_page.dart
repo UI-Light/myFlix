@@ -1,36 +1,62 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:myflix/core/models/movie_model.dart';
+import 'package:myflix/features/details/presentation/view_model/details_view_model.dart';
+import 'package:myflix/features/details/presentation/widgets/backdrop_error_card.dart';
+import 'package:myflix/features/details/presentation/widgets/backdrop_loading_card.dart';
 import 'package:myflix/features/details/presentation/widgets/similar_movies_list.dart';
 
 class MovieDetailsPage extends StatefulWidget {
-  const MovieDetailsPage({super.key});
+  final Movie movie;
+
+  const MovieDetailsPage({super.key, required this.movie});
 
   @override
   State<MovieDetailsPage> createState() => _MovieDetailsPageState();
 }
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
+  DetailsViewModel detailsViewModel = DetailsViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    detailsViewModel.getSimilarMovies(widget.movie);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 280,
-            width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('asset/dune.jpeg'),
-              ),
-            ),
-          ),
+          CachedNetworkImage(
+              imageUrl: widget.movie.backdropUrl,
+              imageBuilder: (context, imageProvider) {
+                return Container(
+                  height: 280,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
+              placeholder: (context, url) {
+                return const BackdropLoadingCard();
+              },
+              errorWidget: (context, url, error) {
+                return const BackdropErrorCard();
+              }),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               children: [
-                const Text(
-                  'Cinema Paradiso',
-                  style: TextStyle(
+                Text(
+                  widget.movie.movieTitle,
+                  style: const TextStyle(
                       color: Colors.white,
                       fontSize: 25,
                       fontWeight: FontWeight.bold),
@@ -39,22 +65,23 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 RichText(
                   text: TextSpan(
                     style: const TextStyle(fontSize: 16),
-                    text: '1998 ',
+                    text: widget.movie.year.substring(0, 4),
                     children: [
                       const TextSpan(
                           text: ' • ',
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       TextSpan(
-                          text: ' 8.45/10',
+                          text:
+                              '${widget.movie.averageRating.toStringAsFixed(2)}/10',
                           style: TextStyle(color: Colors.red[900])),
-                      const TextSpan(text: '  on IMDB'),
+                      const TextSpan(text: '  on TMDB'),
                     ],
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'A film maker recalls his childhood, when he fell in love with the movies at his village\'s theater and formed a deep friendship with the theater\'s projectionist.',
-                  style: TextStyle(
+                Text(
+                  widget.movie.overview,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),
@@ -89,7 +116,14 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const SimilarMoviesListView(title: 'Similar Movies'),
+                ValueListenableBuilder(
+                    valueListenable: detailsViewModel.similarMovies,
+                    builder: (context, movies, _) {
+                      return SimilarMoviesListView(
+                        title: 'Similar Movies',
+                        movie: movies,
+                      );
+                    }),
               ],
             ),
           ),

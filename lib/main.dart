@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:myflix/core/dependencies/registry.dart';
+import 'package:myflix/core/models/movie_model.dart';
 import 'package:myflix/core/routes.dart';
 import 'package:myflix/core/utils/logger.dart';
 import 'package:myflix/features/details/presentation/view/movie_details_page.dart';
@@ -22,7 +23,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         Routes.homeRoute: (context) => const IndexPage(),
-        Routes.detailsRoute: (context) => const MovieDetailsPage(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == Routes.detailsRoute) {
+          final movie = settings.arguments as Movie;
+          return MaterialPageRoute(
+            builder: (_) => MovieDetailsPage(movie: movie),
+          );
+        }
       },
       theme: ThemeData(
         useMaterial3: true,

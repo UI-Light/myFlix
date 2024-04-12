@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:myflix/core/models/movie_model.dart';
 import 'package:myflix/core/presentation/widgets/movie_card.dart';
 
 class SimilarMoviesListView extends StatefulWidget {
   final String title;
-  const SimilarMoviesListView({super.key, required this.title});
+  final List<Movie> movie;
+  const SimilarMoviesListView(
+      {super.key, required this.title, required this.movie});
 
   @override
   State<SimilarMoviesListView> createState() => _SimilarMoviesListViewState();
@@ -26,7 +29,7 @@ class _SimilarMoviesListViewState extends State<SimilarMoviesListView> {
         const SizedBox(height: 4),
         SizedBox(
           height: 300,
-          child: GridView(
+          child: GridView.builder(
             padding: EdgeInsets.zero,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 3 / 4,
@@ -35,15 +38,10 @@ class _SimilarMoviesListViewState extends State<SimilarMoviesListView> {
               crossAxisSpacing: 2,
             ),
             scrollDirection: Axis.vertical,
-            children: const [
-              // MovieCard(),
-              // MovieCard(),
-              // MovieCard(),
-              // MovieCard(),
-              // MovieCard(),
-              // MovieCard(),
-              // MovieCard(),
-            ],
+            itemCount: widget.movie.length,
+            itemBuilder: (context, index) {
+              return MovieCard(movie: widget.movie[index]);
+            },
           ),
         ),
       ],
