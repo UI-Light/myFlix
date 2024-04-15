@@ -13,7 +13,7 @@ class SearchRepository {
       baseUrl: const String.fromEnvironment('TMDB_SEARCH_URL'),
       headers: {
         HttpHeaders.authorizationHeader:
-            const String.fromEnvironment('Bearer TMDB_READ_ACCESS_TOKEN'),
+            'Bearer ${const String.fromEnvironment('TMDB_READ_ACCESS_TOKEN')}',
       },
     ),
   );

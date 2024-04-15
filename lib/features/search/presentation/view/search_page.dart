@@ -12,7 +12,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   SearchViewModel searchViewModel = SearchViewModel();
-  TextEditingController controller = TextEditingController();
+
   final _debouncer = Debouncer(milliseconds: 500);
 
   @override
@@ -35,14 +35,13 @@ class _SearchPageState extends State<SearchPage> {
                 alignment: Alignment.center,
                 child: Container(
                     height: 50,
-                    width: 320,
+                    width: 350,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(),
                       color: Colors.grey[900],
                     ),
                     child: TextFormField(
-                      controller: controller,
                       onChanged: (value) {
                         _debouncer.run(() {
                           searchViewModel.searchMovie(value);
@@ -63,7 +62,8 @@ class _SearchPageState extends State<SearchPage> {
                     valueListenable: searchViewModel.searchresults,
                     builder: (context, movies, _) {
                       return GridView.builder(
-                        padding: EdgeInsets.zero,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: 3 / 4,
