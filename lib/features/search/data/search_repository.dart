@@ -12,7 +12,7 @@ class SearchRepository {
 
   late final _logger = getLogger(SearchRepository);
 
-  Future<List<Movie>> searchMovie(String keyword) async {
+  Future<List<Movie>> searchMovies(String keyword) async {
     final response = await _client.dio.get(
         'search/movie?query=$keyword&include_adult=false&language=en-US&page=1');
     _logger.log("this is response statuscode: ${response.statusCode}");

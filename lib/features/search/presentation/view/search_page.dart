@@ -19,7 +19,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    searchViewModel.searchMovie(controller.text);
+    searchViewModel.searchMovies(controller.text);
   }
 
   @override
@@ -55,7 +55,7 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       onChanged: (value) {
                         _debouncer.run(() {
-                          searchViewModel.searchMovie(value);
+                          searchViewModel.searchMovies(value);
                         });
 
                         setState(() {});
@@ -70,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
                             ? IconButton(
                                 onPressed: () {
                                   controller.clear();
-                                  searchViewModel.searchMovie(controller.text);
+                                  searchViewModel.searchMovies(controller.text);
                                   setState(() {});
                                 },
                                 icon: const Icon(

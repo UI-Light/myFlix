@@ -17,16 +17,12 @@ class SearchViewModel {
     isLoading.value = val;
   }
 
-  Future<void> searchMovie(String keyword) async {
+  Future<void> searchMovies(String keyword) async {
     try {
       setLoading(true);
-      if (keyword.isEmpty) {
-        final movies = await _searchRepository.searchMovie('christmas');
-        _searchresults.value = movies;
-      } else {
-        final movies = await _searchRepository.searchMovie(keyword);
-        _searchresults.value = movies;
-      }
+      final movies = await _searchRepository
+          .searchMovies(keyword.isEmpty ? 'christmas' : keyword);
+      _searchresults.value = movies;
     } catch (e) {
       _logger.log(e);
     }
