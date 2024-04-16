@@ -13,8 +13,8 @@ class DetailsRepository {
   late final _logger = getLogger(DetailsRepository);
 
   Future<List<Movie>> getSimilarMovies(Movie movie) async {
-    final response =
-        await _client.dio.get('${movie.movieId}/similar?language=en-US&page=1');
+    final response = await _client.dio
+        .get('movie/${movie.movieId}/similar?language=en-US&page=1');
     _logger.log("this is response statuscode: ${response.statusCode}");
     _logger.log("this is response: $response");
     _logger.log("this is response type: ${response.runtimeType}");

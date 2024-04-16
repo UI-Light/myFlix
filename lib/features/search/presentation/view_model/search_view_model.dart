@@ -10,9 +10,27 @@ class SearchViewModel {
   final ValueNotifier<List<Movie>> _searchresults = ValueNotifier([]);
   ValueNotifier<List<Movie>> get searchresults => _searchresults;
 
+  final ValueNotifier<bool> _isLoading = ValueNotifier(false);
+  ValueNotifier get isLoading => _isLoading;
+
+  void setLoading(bool val) {
+    isLoading.value = val;
+  }
+
   Future<void> searchMovie(String keyword) async {
     try {
+      setLoading(true);
       final movies = await _searchRepository.searchMovie(keyword);
+      _searchresults.value = movies;
+    } catch (e) {
+      _logger.log(e);
+    }
+    setLoading(false);
+  }
+
+  Future<void> getChristmasMovies() async {
+    try {
+      final movies = await _searchRepository.getChristmasMovies();
       _searchresults.value = movies;
     } catch (e) {
       _logger.log(e);

@@ -11,9 +11,16 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  TextEditingController controller = TextEditingController();
   SearchViewModel searchViewModel = SearchViewModel();
 
   final _debouncer = Debouncer(milliseconds: 500);
+
+  @override
+  void initState() {
+    super.initState();
+    searchViewModel.getChristmasMovies();
+  }
 
   @override
   void dispose() {
@@ -42,43 +49,91 @@ class _SearchPageState extends State<SearchPage> {
                       color: Colors.grey[900],
                     ),
                     child: TextFormField(
+                      controller: controller,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                       onChanged: (value) {
-                        _debouncer.run(() {
-                          searchViewModel.searchMovie(value);
-                        });
+                        if (value.isEmpty) {
+                          _debouncer.run(() {
+                            searchViewModel.getChristmasMovies();
+                          });
+                        } else {
+                          _debouncer.run(() {
+                            searchViewModel.searchMovie(value);
+                          });
+                        }
+                        setState(() {});
                       },
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: 'Search',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        prefixIcon: const Icon(
                           Icons.search,
                         ),
+                        suffixIcon: controller.text.isNotEmpty
+                            ? IconButton(
+                                onPressed: () {
+                                  controller.clear();
+                                  setState(() {});
+                                },
+                                icon: const Icon(
+                                  Icons.clear,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : null,
                         border: InputBorder.none,
                       ),
+                      cursorColor: Colors.red[900],
                     )),
               ),
-              Expanded(
-                child: ValueListenableBuilder(
-                    valueListenable: searchViewModel.searchresults,
-                    builder: (context, movies, _) {
-                      return GridView.builder(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 3 / 4,
-                          mainAxisSpacing: 4,
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 2,
-                        ),
-                        scrollDirection: Axis.vertical,
-                        itemCount: movies.length,
-                        itemBuilder: (context, index) {
-                          return MovieCard(movie: movies[index]);
-                        },
-                      );
-                    }),
-              ),
+              ValueListenableBuilder(
+                  valueListenable: searchViewModel.isLoading,
+                  builder: (context, isLoading, _) {
+                    return isLoading
+                        ? Expanded(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3.0,
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.red[900]),
+                              ),
+                            ),
+                          )
+                        : Expanded(
+                            child: ValueListenableBuilder(
+                                valueListenable: searchViewModel.searchresults,
+                                builder: (context, movies, _) {
+                                  return movies.isEmpty
+                                      ? Center(
+                                          child: Text(
+                                            'Could not find movie "${controller.text}"',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )
+                                      : GridView.builder(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 10),
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            childAspectRatio: 3 / 4,
+                                            mainAxisSpacing: 4,
+                                            crossAxisCount: 3,
+                                            crossAxisSpacing: 2,
+                                          ),
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: movies.length,
+                                          itemBuilder: (context, index) {
+                                            return MovieCard(
+                                                movie: movies[index]);
+                                          },
+                                        );
+                                }),
+                          );
+                  }),
             ],
           ),
         ),

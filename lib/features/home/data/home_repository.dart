@@ -14,7 +14,8 @@ class HomeRepository {
   late final _logger = getLogger(HomeRepository);
 
   Future<List<Movie>> getNowPlaying() async {
-    final response = await _client.dio.get('now_playing?language=en-US&page=1');
+    final response =
+        await _client.dio.get('movie/now_playing?language=en-US&page=1');
     _logger.log("this is response statuscode: ${response.statusCode}");
     _logger.log("this is response: $response");
     _logger.log("this is response type: ${response.runtimeType}");
@@ -28,7 +29,8 @@ class HomeRepository {
   }
 
   Future<List<Movie>> getTopRatedMovies() async {
-    final response = await _client.dio.get('top_rated?language=en-US&page=1');
+    final response =
+        await _client.dio.get('movie/top_rated?language=en-US&page=1');
 
     if (response.statusCode == 200) {
       List<Movie> movies = Result.fromJson(response.data).movieResults;
@@ -39,7 +41,8 @@ class HomeRepository {
   }
 
   Future<List<Movie>> getPopularMovies() async {
-    final response = await _client.dio.get('popular?language=en-US&page=1');
+    final response =
+        await _client.dio.get('movie/popular?language=en-US&page=1');
 
     if (response.statusCode == 200) {
       List<Movie> movies = Result.fromJson(response.data).movieResults;
@@ -50,7 +53,8 @@ class HomeRepository {
   }
 
   Future<List<Movie>> getUpcomingMovies() async {
-    final response = await _client.dio.get('upcoming?language=en-US&page=1');
+    final response =
+        await _client.dio.get('movie/upcoming?language=en-US&page=1');
 
     if (response.statusCode == 200) {
       List<Movie> movies = Result.fromJson(response.data).movieResults;
