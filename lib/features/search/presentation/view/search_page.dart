@@ -19,7 +19,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    searchViewModel.getChristmasMovies();
+    searchViewModel.searchMovie(controller.text);
   }
 
   @override
@@ -54,15 +54,10 @@ class _SearchPageState extends State<SearchPage> {
                         color: Colors.white,
                       ),
                       onChanged: (value) {
-                        if (value.isEmpty) {
-                          _debouncer.run(() {
-                            searchViewModel.getChristmasMovies();
-                          });
-                        } else {
-                          _debouncer.run(() {
-                            searchViewModel.searchMovie(value);
-                          });
-                        }
+                        _debouncer.run(() {
+                          searchViewModel.searchMovie(value);
+                        });
+
                         setState(() {});
                       },
                       decoration: InputDecoration(
@@ -75,6 +70,7 @@ class _SearchPageState extends State<SearchPage> {
                             ? IconButton(
                                 onPressed: () {
                                   controller.clear();
+                                  searchViewModel.searchMovie(controller.text);
                                   setState(() {});
                                 },
                                 icon: const Icon(

@@ -25,18 +25,4 @@ class SearchRepository {
       throw Exception('Query not found');
     }
   }
-
-  Future<List<Movie>> getChristmasMovies() async {
-    final response = await _client.dio.get(
-        'search/movie?query=christmas&include_adult=false&language=en-US&page=1');
-    _logger.log("this is response statuscode: ${response.statusCode}");
-    _logger.log("this is response: $response");
-
-    if (response.statusCode == 200) {
-      List<Movie> searchResults = Result.fromJson(response.data).movieResults;
-      return searchResults;
-    } else {
-      throw Exception('Query not found');
-    }
-  }
 }

@@ -20,20 +20,16 @@ class SearchViewModel {
   Future<void> searchMovie(String keyword) async {
     try {
       setLoading(true);
-      final movies = await _searchRepository.searchMovie(keyword);
-      _searchresults.value = movies;
+      if (keyword.isEmpty) {
+        final movies = await _searchRepository.searchMovie('christmas');
+        _searchresults.value = movies;
+      } else {
+        final movies = await _searchRepository.searchMovie(keyword);
+        _searchresults.value = movies;
+      }
     } catch (e) {
       _logger.log(e);
     }
     setLoading(false);
-  }
-
-  Future<void> getChristmasMovies() async {
-    try {
-      final movies = await _searchRepository.getChristmasMovies();
-      _searchresults.value = movies;
-    } catch (e) {
-      _logger.log(e);
-    }
   }
 }
