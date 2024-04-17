@@ -19,7 +19,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   void initState() {
     super.initState();
-    searchViewModel.searchMovies(controller.text);
+    searchViewModel.searchMovies('');
   }
 
   @override
@@ -70,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
                             ? IconButton(
                                 onPressed: () {
                                   controller.clear();
-                                  searchViewModel.searchMovies(controller.text);
+                                  searchViewModel.searchMovies('');
                                   setState(() {});
                                 },
                                 icon: const Icon(
@@ -104,7 +104,7 @@ class _SearchPageState extends State<SearchPage> {
                                   return movies.isEmpty
                                       ? Center(
                                           child: Text(
-                                            'Could not find movie "${controller.text}"',
+                                            "Could not find any movie for ${controller.text}",
                                             style: const TextStyle(
                                               color: Colors.white,
                                             ),
