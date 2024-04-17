@@ -4,26 +4,25 @@ import 'package:myflix/core/models/movie_model.dart';
 import 'package:myflix/core/models/result_model.dart';
 import 'package:myflix/core/utils/logger.dart';
 
-class DetailsRepository {
+class SearchRepository {
   final ApiClient _client;
 
-  DetailsRepository({ApiClient? client})
+  SearchRepository({ApiClient? client})
       : _client = client ?? GetIt.I<ApiClient>();
 
-  late final _logger = getLogger(DetailsRepository);
+  late final _logger = getLogger(SearchRepository);
 
-  Future<List<Movie>> getSimilarMovies(Movie movie) async {
-    final response = await _client.dio
-        .get('movie/${movie.movieId}/similar?language=en-US&page=1');
+  Future<List<Movie>> searchMovies(String keyword) async {
+    final response = await _client.dio.get(
+        'search/movie?query=$keyword&include_adult=false&language=en-US&page=1');
     _logger.log("this is response statuscode: ${response.statusCode}");
     _logger.log("this is response: $response");
-    _logger.log("this is response type: ${response.runtimeType}");
 
     if (response.statusCode == 200) {
-      List<Movie> movies = Result.fromJson(response.data).movieResults;
-      return movies;
+      List<Movie> searchResults = Result.fromJson(response.data).movieResults;
+      return searchResults;
     } else {
-      throw Exception('Cannot load similar movies');
+      throw Exception('Query not found');
     }
   }
 }
