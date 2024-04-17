@@ -11,7 +11,13 @@ class _WatchListPageState extends State<WatchListPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text('WatchlistPage'),
+      body: Padding(
+        padding: EdgeInsets.only(top: 10.0),
+        child: Text(
+          'My Watch List',
+          style: TextStyle(color: Colors.white, fontSize: 18),
+        ),
+      ),
     );
   }
 }
