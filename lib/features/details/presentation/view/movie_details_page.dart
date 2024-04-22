@@ -5,6 +5,7 @@ import 'package:myflix/features/details/presentation/view_model/details_view_mod
 import 'package:myflix/features/details/presentation/widgets/backdrop_error_card.dart';
 import 'package:myflix/features/details/presentation/widgets/backdrop_loading_card.dart';
 import 'package:myflix/features/details/presentation/widgets/similar_movies_list.dart';
+import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final Movie movie;
@@ -17,11 +18,41 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   DetailsViewModel detailsViewModel = DetailsViewModel();
+  WatchListViewModel watchListViewModel = WatchListViewModel();
+
+  bool movieInWatchList = false;
+
+  void saveMovie(Movie movie) {
+    if (movieInWatchList) {
+      watchListViewModel.removeFromWatchList(movie);
+      movieInWatchList = false;
+      watchListViewModel.showSnackbar(context, 'Removed from Watchlist');
+    } else {
+      watchListViewModel.addToWatchList(movie);
+      movieInWatchList = true;
+      watchListViewModel.showSnackbar(context, 'Added to Watchlist');
+    }
+    setState(() {});
+  }
+
+  Future<void> checkForMovie() async {
+    movieInWatchList = await watchListViewModel.movieInWatchlist(widget.movie);
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
     detailsViewModel.getSimilarMovies(widget.movie);
+    checkForMovie();
+  }
+
+  @override
+  void didUpdateWidget(covariant MovieDetailsPage oldWidget) {
+    if (oldWidget.movie.movieId != widget.movie.movieId) {
+      checkForMovie();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -89,28 +120,39 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Container(
-                    height: 45,
-                    width: 120,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.check,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            'My List',
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
+                  child: GestureDetector(
+                    onTap: () {
+                      saveMovie(widget.movie);
+                    },
+                    child: Container(
+                      height: 45,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            movieInWatchList
+                                ? const Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                  )
+                                : const Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            const Text(
+                              'My List',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
