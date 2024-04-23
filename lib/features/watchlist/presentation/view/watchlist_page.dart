@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myflix/core/presentation/widgets/movie_card.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
+import 'package:provider/provider.dart';
 
 class WatchListPage extends StatefulWidget {
   const WatchListPage({super.key});
@@ -10,12 +11,10 @@ class WatchListPage extends StatefulWidget {
 }
 
 class _WatchListPageState extends State<WatchListPage> {
-  WatchListViewModel watchListViewModel = WatchListViewModel();
-
   @override
   void initState() {
     super.initState();
-    watchListViewModel.getWatchList();
+    context.read<WatchListViewModel>().getWatchList();
   }
 
   @override
@@ -35,11 +34,17 @@ class _WatchListPageState extends State<WatchListPage> {
                     fontWeight: FontWeight.bold),
               ),
               ValueListenableBuilder(
-                valueListenable: watchListViewModel.watchListNotifier,
+                valueListenable:
+                    context.read<WatchListViewModel>().watchListNotifier,
                 builder: (context, watchList, _) {
                   return watchList.isEmpty
-                      ? const Center(
-                          child: Text('No Movie in WatchList'),
+                      ? const Expanded(
+                          child: Center(
+                            child: Text(
+                              'No Movie in WatchList',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
                         )
                       : Expanded(
                           child: GridView.builder(

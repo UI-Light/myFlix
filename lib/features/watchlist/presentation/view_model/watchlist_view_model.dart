@@ -18,19 +18,11 @@ class WatchListViewModel {
   }
 
   Future<void> removeFromWatchList(Movie movie) async {
-    await _storageService.removeFromWatchlist(movie);
+    await _storageService.removeFromWatchList(movie);
     await getWatchList();
   }
 
   Future<bool> movieInWatchlist(Movie movie) async {
     return await _storageService.movieInWatchList(movie);
-  }
-
-  void showSnackbar(BuildContext context, String text) {
-    SnackBar snackBar = SnackBar(
-      content: Text(text),
-      duration: const Duration(seconds: 1),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

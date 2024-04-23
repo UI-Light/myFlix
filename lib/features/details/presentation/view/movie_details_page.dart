@@ -6,6 +6,7 @@ import 'package:myflix/features/details/presentation/widgets/backdrop_error_card
 import 'package:myflix/features/details/presentation/widgets/backdrop_loading_card.dart';
 import 'package:myflix/features/details/presentation/widgets/similar_movies_list.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
+import 'package:provider/provider.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final Movie movie;
@@ -18,25 +19,33 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   DetailsViewModel detailsViewModel = DetailsViewModel();
-  WatchListViewModel watchListViewModel = WatchListViewModel();
 
-  bool movieInWatchList = false;
+  ValueNotifier<bool> _movieInWatchList = ValueNotifier(false);
+  ValueNotifier<bool> get movieInWatchList => _movieInWatchList;
 
   void saveMovie(Movie movie) {
-    if (movieInWatchList) {
-      watchListViewModel.removeFromWatchList(movie);
-      movieInWatchList = false;
-      watchListViewModel.showSnackbar(context, 'Removed from Watchlist');
+    if (movieInWatchList.value) {
+      context.read<WatchListViewModel>().removeFromWatchList(movie);
+      movieInWatchList.value = false;
+      showSnackbar(context, 'Removed from Watchlist');
     } else {
-      watchListViewModel.addToWatchList(movie);
-      movieInWatchList = true;
-      watchListViewModel.showSnackbar(context, 'Added to Watchlist');
+      context.read<WatchListViewModel>().addToWatchList(movie);
+      movieInWatchList.value = true;
+      showSnackbar(context, 'Added to Watchlist');
     }
-    setState(() {});
+  }
+
+  void showSnackbar(BuildContext context, String text) {
+    SnackBar snackBar = SnackBar(
+      content: Text(text),
+      duration: const Duration(seconds: 1),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Future<void> checkForMovie() async {
-    movieInWatchList = await watchListViewModel.movieInWatchlist(widget.movie);
+    movieInWatchList.value =
+        await context.read<WatchListViewModel>().movieInWatchlist(widget.movie);
     setState(() {});
   }
 
@@ -120,42 +129,46 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      saveMovie(widget.movie);
-                    },
-                    child: Container(
-                      height: 45,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            movieInWatchList
-                                ? const Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                  )
-                                : const Icon(
-                                    Icons.add,
-                                    color: Colors.white,
+                  child: ValueListenableBuilder(
+                      valueListenable: movieInWatchList,
+                      builder: (context, value, _) {
+                        return GestureDetector(
+                          onTap: () {
+                            saveMovie(widget.movie);
+                          },
+                          child: Container(
+                            height: 45,
+                            width: 120,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  value
+                                      ? const Icon(
+                                          Icons.check,
+                                          color: Colors.white,
+                                        )
+                                      : const Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        ),
+                                  const SizedBox(
+                                    width: 8,
                                   ),
-                            const SizedBox(
-                              width: 8,
+                                  const Text(
+                                    'My List',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
-                            const Text(
-                              'My List',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                          ),
+                        );
+                      }),
                 ),
                 const SizedBox(height: 20),
                 ValueListenableBuilder(
