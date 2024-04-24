@@ -12,9 +12,9 @@ class StorageService {
   Future<List<Movie>> fetchWatchList() async {
     _logger.log('This is get key: ${movieBox.keys}');
     final List<Movie> movies = [];
-    final keysList = movieBox.keys;
+    final keysList = movieBox.keys.toList();
     for (int i = 0; i < keysList.length; i++) {
-      movies.add(movieBox.get(i)!);
+      movies.add(movieBox.get(keysList[i])!);
     }
     return movies;
   }
@@ -25,11 +25,11 @@ class StorageService {
   }
 
   Future<void> removeFromWatchList(Movie movie) async {
-    final keylist = movieBox.keys;
+    final keylist = movieBox.keys.toList();
     for (int i = 0; i < keylist.length; i++) {
-      final currentMovie = movieBox.get(i);
+      final currentMovie = movieBox.get(keylist[i]);
       if (currentMovie!.movieId == movie.movieId) {
-        movieBox.delete(i);
+        movieBox.delete(keylist[i]);
         break;
       }
     }
