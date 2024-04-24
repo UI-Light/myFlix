@@ -1,8 +1,27 @@
+import 'package:hive/hive.dart';
+part 'movie_model.g.dart';
+
+@HiveType(typeId: 0)
 class Movie {
-  final String movieTitle, posterUrl, overview;
+  @HiveField(0)
+  final String movieTitle;
+
+  @HiveField(1)
+  final String posterUrl;
+
+  @HiveField(2)
+  final String overview;
+
+  @HiveField(3)
   final String backdropUrl;
+
+  @HiveField(4)
   final String year;
+
+  @HiveField(5)
   final num averageRating;
+
+  @HiveField(6)
   final int movieId;
 
   const Movie({

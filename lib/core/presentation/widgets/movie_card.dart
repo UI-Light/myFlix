@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myflix/core/models/movie_model.dart';
 import 'package:myflix/core/presentation/widgets/loading_error_card.dart';
 import 'package:myflix/core/presentation/widgets/movie_loading_card.dart';
-import 'package:myflix/core/routes.dart';
+import 'package:myflix/core/utils/routes.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;

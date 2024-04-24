@@ -1,18 +1,33 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:myflix/core/dependencies/registry.dart';
 import 'package:myflix/core/models/movie_model.dart';
-import 'package:myflix/core/routes.dart';
+import 'package:myflix/core/utils/constants.dart';
+import 'package:myflix/core/utils/routes.dart';
 import 'package:myflix/core/utils/logger.dart';
 import 'package:myflix/features/details/presentation/view/movie_details_page.dart';
+import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
 import 'package:myflix/views/index_page.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  WidgetsFlutterBinding.ensureInitialized();
+  Hive.registerAdapter(MovieAdapter());
+  await Hive.openBox<Movie>(boxName);
+
   AppLogger.configure(showLogs: kDebugMode);
   registerdependencies(
       baseUrl: const String.fromEnvironment('BASE_URL'),
       token: const String.fromEnvironment('TMDB_READ_ACCESS_TOKEN'));
-  runApp(const MyApp());
+
+  runApp(
+    Provider(
+      create: (_) => WatchListViewModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
