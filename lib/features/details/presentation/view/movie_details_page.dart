@@ -20,17 +20,16 @@ class MovieDetailsPage extends StatefulWidget {
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   DetailsViewModel detailsViewModel = DetailsViewModel();
 
-  ValueNotifier<bool> _movieInWatchList = ValueNotifier(false);
-  ValueNotifier<bool> get movieInWatchList => _movieInWatchList;
+  final ValueNotifier<bool> _movieInWatchList = ValueNotifier(false);
 
   void saveMovie(Movie movie) {
-    if (movieInWatchList.value) {
+    if (_movieInWatchList.value) {
       context.read<WatchListViewModel>().removeFromWatchList(movie);
-      movieInWatchList.value = false;
+      _movieInWatchList.value = false;
       showSnackbar(context, 'Removed from Watchlist');
     } else {
       context.read<WatchListViewModel>().addToWatchList(movie);
-      movieInWatchList.value = true;
+      _movieInWatchList.value = true;
       showSnackbar(context, 'Added to Watchlist');
     }
   }
@@ -44,9 +43,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   }
 
   Future<void> checkForMovie() async {
-    movieInWatchList.value =
+    _movieInWatchList.value =
         await context.read<WatchListViewModel>().movieInWatchlist(widget.movie);
-    setState(() {});
   }
 
   @override
@@ -54,14 +52,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     super.initState();
     detailsViewModel.getSimilarMovies(widget.movie);
     checkForMovie();
-  }
-
-  @override
-  void didUpdateWidget(covariant MovieDetailsPage oldWidget) {
-    if (oldWidget.movie.movieId != widget.movie.movieId) {
-      checkForMovie();
-    }
-    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -129,46 +119,41 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: ValueListenableBuilder(
-                      valueListenable: movieInWatchList,
-                      builder: (context, value, _) {
-                        return GestureDetector(
-                          onTap: () {
-                            saveMovie(widget.movie);
-                          },
-                          child: Container(
-                            height: 45,
-                            width: 120,
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.white),
-                                borderRadius: BorderRadius.circular(12)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  value
-                                      ? const Icon(
-                                          Icons.check,
-                                          color: Colors.white,
-                                        )
-                                      : const Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  const Text(
-                                    'My List',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 16),
-                                  ),
-                                ],
-                              ),
+                  child: GestureDetector(
+                    onTap: () {
+                      saveMovie(widget.movie);
+                    },
+                    child: Container(
+                      height: 45,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            ValueListenableBuilder(
+                                valueListenable: _movieInWatchList,
+                                builder: (context, value, _) {
+                                  return Icon(
+                                    value ? Icons.check : Icons.add,
+                                    color: Colors.white,
+                                  );
+                                }),
+                            const SizedBox(
+                              width: 8,
                             ),
-                          ),
-                        );
-                      }),
+                            const Text(
+                              'My List',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 ValueListenableBuilder(
