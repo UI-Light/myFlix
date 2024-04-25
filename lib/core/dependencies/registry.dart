@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:myflix/core/data/api_client.dart';
 import 'package:myflix/features/details/data/details_repository.dart';
+import 'package:myflix/features/details/data/webview_repository.dart';
 import 'package:myflix/features/home/data/home_repository.dart';
 import 'package:myflix/features/search/data/search_repository.dart';
 
@@ -20,5 +21,9 @@ void registerdependencies({String baseUrl = '', String token = ''}) {
 
   GetIt.I.registerLazySingleton<SearchRepository>(
     () => SearchRepository(client: apiClient),
+  );
+
+  GetIt.I.registerLazySingleton<WebviewRepository>(
+    () => WebviewRepository(),
   );
 }

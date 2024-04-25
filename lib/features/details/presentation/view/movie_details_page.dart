@@ -72,6 +72,16 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       fit: BoxFit.cover,
                     ),
                   ),
+                  child: IconButton(
+                    onPressed: () {
+                      detailsViewModel.movieWebview(widget.movie);
+                    },
+                    icon: const Icon(
+                      Icons.play_circle,
+                      color: Colors.white,
+                      size: 60,
+                    ),
+                  ),
                 );
               },
               placeholder: (context, url) {
