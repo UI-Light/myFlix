@@ -22,7 +22,6 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   DetailsViewModel detailsViewModel = DetailsViewModel();
-  late final WebViewController controller;
 
   final ValueNotifier<bool> _movieInWatchList = ValueNotifier(false);
 
@@ -56,10 +55,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     super.initState();
     detailsViewModel.getSimilarMovies(widget.movie);
     checkForMovie();
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://vidsrc.to/embed/movie/${widget.movie.movieId}'),
-      );
   }
 
   @override
@@ -82,8 +77,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(Routes.movieWebViewRoute,
-                          arguments: {widget.movie, controller});
+                      Navigator.of(context).pushNamed(
+                        Routes.movieWebViewRoute,
+                        arguments: widget.movie,
+                      );
                     },
                     icon: const Icon(
                       Icons.play_circle,

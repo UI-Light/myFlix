@@ -47,12 +47,12 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (_) => MovieDetailsPage(movie: movie),
           );
-        }
-        if (settings.name == Routes.movieWebViewRoute) {
+        } else if (settings.name == Routes.movieWebViewRoute) {
           final movie = settings.arguments as Movie;
-          final controller = settings.arguments as WebViewController;
           return MaterialPageRoute(
-            builder: (_) => MovieWebView(controller: controller, movie: movie),
+            builder: (_) => MovieWebView(
+              movie: movie,
+            ),
           );
         }
       },

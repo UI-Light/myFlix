@@ -3,27 +3,27 @@ import 'package:myflix/core/models/movie_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MovieWebView extends StatefulWidget {
-  final WebViewController controller;
   final Movie movie;
-  const MovieWebView(
-      {super.key, required this.controller, required this.movie});
+  const MovieWebView({
+    super.key,
+    required this.movie,
+  });
 
   @override
   State<MovieWebView> createState() => _MovieWebViewState();
 }
 
 class _MovieWebViewState extends State<MovieWebView> {
-  @override
-  void initState() {
-    super.initState();
-    widget.controller;
-  }
+  final controller = WebViewController()
+    ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..loadRequest(
+      Uri.parse('https://vidsrc.to/embed/movie/${widget.movie.movieId}'),
+    );
 
   @override
   Widget build(BuildContext context) {
-    return WebViewWidget(
-      
-      controller: widget.controller,
+    return Scaffold(
+      body: WebViewWidget(controller: controller),
     );
   }
 }
