@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myflix/core/models/movie_model.dart';
+import 'package:myflix/core/utils/routes.dart';
 import 'package:myflix/features/details/presentation/view_model/details_view_model.dart';
 import 'package:myflix/features/details/presentation/widgets/backdrop_error_card.dart';
 import 'package:myflix/features/details/presentation/widgets/backdrop_loading_card.dart';
+import 'package:myflix/features/details/presentation/widgets/movie_webview.dart';
 import 'package:myflix/features/details/presentation/widgets/similar_movies_list.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final Movie movie;
@@ -19,6 +22,7 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   DetailsViewModel detailsViewModel = DetailsViewModel();
+  late final WebViewController controller;
 
   final ValueNotifier<bool> _movieInWatchList = ValueNotifier(false);
 
@@ -52,6 +56,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     super.initState();
     detailsViewModel.getSimilarMovies(widget.movie);
     checkForMovie();
+    controller = WebViewController()
+      ..loadRequest(
+        Uri.parse('https://vidsrc.to/embed/movie/${widget.movie.movieId}'),
+      );
   }
 
   @override
@@ -74,7 +82,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      detailsViewModel.movieWebview(widget.movie);
+                      Navigator.of(context).pushNamed(Routes.movieWebViewRoute,
+                          arguments: {widget.movie, controller});
                     },
                     icon: const Icon(
                       Icons.play_circle,

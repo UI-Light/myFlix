@@ -7,9 +7,11 @@ import 'package:myflix/core/utils/constants.dart';
 import 'package:myflix/core/utils/routes.dart';
 import 'package:myflix/core/utils/logger.dart';
 import 'package:myflix/features/details/presentation/view/movie_details_page.dart';
+import 'package:myflix/features/details/presentation/widgets/movie_webview.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
 import 'package:myflix/views/index_page.dart';
 import 'package:provider/provider.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -44,6 +46,13 @@ class MyApp extends StatelessWidget {
           final movie = settings.arguments as Movie;
           return MaterialPageRoute(
             builder: (_) => MovieDetailsPage(movie: movie),
+          );
+        }
+        if (settings.name == Routes.movieWebViewRoute) {
+          final movie = settings.arguments as Movie;
+          final controller = settings.arguments as WebViewController;
+          return MaterialPageRoute(
+            builder: (_) => MovieWebView(controller: controller, movie: movie),
           );
         }
       },
