@@ -14,7 +14,7 @@ class MovieWebView extends StatefulWidget {
 }
 
 class _MovieWebViewState extends State<MovieWebView> {
-  final controller = WebViewController()
+  late final controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
     ..loadRequest(
       Uri.parse('https://vidsrc.to/embed/movie/${widget.movie.movieId}'),
@@ -22,8 +22,10 @@ class _MovieWebViewState extends State<MovieWebView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: WebViewWidget(controller: controller),
+    return SafeArea(
+      child: Scaffold(
+        body: WebViewWidget(controller: controller),
+      ),
     );
   }
 }
