@@ -11,7 +11,7 @@ import 'package:myflix/features/details/presentation/widgets/movie_webview.dart'
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
 import 'package:myflix/views/index_page.dart';
 import 'package:provider/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -24,12 +24,15 @@ void main() async {
       baseUrl: const String.fromEnvironment('BASE_URL'),
       token: const String.fromEnvironment('TMDB_READ_ACCESS_TOKEN'));
 
-  runApp(
-    Provider(
-      create: (_) => WatchListViewModel(),
-      child: const MyApp(),
-    ),
-  );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(
+      Provider(
+        create: (_) => WatchListViewModel(),
+        child: const MyApp(),
+      ),
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {

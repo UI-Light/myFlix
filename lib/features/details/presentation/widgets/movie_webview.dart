@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myflix/core/models/movie_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/services.dart';
 
 class MovieWebView extends StatefulWidget {
   final Movie movie;
@@ -19,6 +20,23 @@ class _MovieWebViewState extends State<MovieWebView> {
     ..loadRequest(
       Uri.parse('https://vidsrc.to/embed/movie/${widget.movie.movieId}'),
     );
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
