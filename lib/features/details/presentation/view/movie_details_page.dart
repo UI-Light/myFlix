@@ -154,7 +154,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         child: Icon(
                           Icons.play_arrow,
                           color: Colors.white,
-                          //     size: 28,
                         ),
                       ),
                       onTap: () {

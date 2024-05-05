@@ -15,8 +15,21 @@ class MovieWebView extends StatefulWidget {
 }
 
 class _MovieWebViewState extends State<MovieWebView> {
+  late final String viewUrl =
+      'https://vidsrc.to/embed/movie/${widget.movie.movieId}';
   late final controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
+    ..setNavigationDelegate(
+      NavigationDelegate(
+        onNavigationRequest: (request) {
+          final host = Uri.parse(request.url).host;
+          if (host != viewUrl) {
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    )
     ..loadRequest(
       Uri.parse('https://vidsrc.to/embed/movie/${widget.movie.movieId}'),
     );
