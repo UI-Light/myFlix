@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:myflix/core/models/movie_model.dart';
+import 'package:myflix/core/utils/routes.dart';
 import 'package:myflix/features/details/presentation/view_model/details_view_model.dart';
 import 'package:myflix/features/details/presentation/widgets/backdrop_error_card.dart';
 import 'package:myflix/features/details/presentation/widgets/backdrop_loading_card.dart';
+import 'package:myflix/features/details/presentation/widgets/button.dart';
 import 'package:myflix/features/details/presentation/widgets/similar_movies_list.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
 import 'package:provider/provider.dart';
@@ -72,6 +74,19 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       fit: BoxFit.cover,
                     ),
                   ),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(
+                        Routes.movieWebViewRoute,
+                        arguments: widget.movie,
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.play_circle,
+                      color: Colors.white,
+                      size: 60,
+                    ),
+                  ),
                 );
               },
               placeholder: (context, url) {
@@ -117,43 +132,38 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    onTap: () {
-                      saveMovie(widget.movie);
-                    },
-                    child: Container(
-                      height: 45,
-                      width: 120,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            ValueListenableBuilder(
-                                valueListenable: _movieInWatchList,
-                                builder: (context, value, _) {
-                                  return Icon(
-                                    value ? Icons.check : Icons.add,
-                                    color: Colors.white,
-                                  );
-                                }),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            const Text(
-                              'My List',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Button(
+                      text: 'My List',
+                      content: ValueListenableBuilder(
+                          valueListenable: _movieInWatchList,
+                          builder: (context, value, _) {
+                            return Icon(
+                              value ? Icons.check : Icons.add,
+                              color: Colors.white,
+                            );
+                          }),
+                      onTap: () => saveMovie(widget.movie),
+                    ),
+                    Button(
+                      text: 'Watch',
+                      content: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
                         ),
                       ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          Routes.movieWebViewRoute,
+                          arguments: widget.movie,
+                        );
+                      },
                     ),
-                  ),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 ValueListenableBuilder(
