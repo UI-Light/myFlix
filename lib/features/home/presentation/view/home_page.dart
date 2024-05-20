@@ -36,8 +36,9 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         color: Colors.black,
         onRefresh: () async {
-         await homeViewModel.refresh();
+          await homeViewModel.refresh();
         },
+        //TODO: Handle No internet connection state
         child: ListView(
           padding: const EdgeInsets.only(left: 8.0),
           children: [

@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
+        //TODO: splash screen
         Routes.homeRoute: (context) => const IndexPage(),
       },
       onGenerateRoute: (settings) {
