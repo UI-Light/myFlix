@@ -30,25 +30,42 @@ class _IndexPageState extends State<IndexPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (!didPop) {
-          final navigator = switch (selectedIndex) {
-            0 => _homePageNavigatorKey,
-            1 => _watchListNavigatorKey,
-            _ => _searchNavigatorKey,
-          };
+    return WillPopScope(
+      onWillPop: () async {
+        print('onwill pop ');
+        final navigator = switch (selectedIndex) {
+          0 => _homePageNavigatorKey,
+          1 => _watchListNavigatorKey,
+          _ => _searchNavigatorKey,
+        };
 
-          final canPop = navigator.currentState!.canPop();
+        final canPop = navigator.currentState!.canPop();
 
-          if (canPop) {
-            navigator.currentState?.pop();
-          } else {
-            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-          }
+        if (canPop) {
+          navigator.currentState?.pop();
+        } else {
+          SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         }
+        return false;
       },
+      // canPop: false,
+      // onPopInvoked: (didPop) {
+      //   if (!didPop) {
+      //     final navigator = switch (selectedIndex) {
+      //       0 => _homePageNavigatorKey,
+      //       1 => _watchListNavigatorKey,
+      //       _ => _searchNavigatorKey,
+      //     };
+
+      //     final canPop = navigator.currentState!.canPop();
+
+      //     if (canPop) {
+      //       navigator.currentState?.pop();
+      //     } else {
+      //       SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      //     }
+      //   }
+      // },
       child: Scaffold(
         body: IndexedStack(
           index: selectedIndex,
