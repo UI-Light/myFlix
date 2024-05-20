@@ -76,7 +76,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(
+                      Navigator.of(context, rootNavigator: true).pushNamed(
                         Routes.movieWebViewRoute,
                         arguments: widget.movie,
                       );
@@ -157,7 +157,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.of(context).pushNamed(
+                        Navigator.of(context, rootNavigator: true).pushNamed(
                           Routes.movieWebViewRoute,
                           arguments: widget.movie,
                         );
@@ -166,6 +166,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ],
                 ),
                 const SizedBox(height: 20),
+                //TODO: Fix similar movies scroll
                 ValueListenableBuilder(
                     valueListenable: detailsViewModel.similarMovies,
                     builder: (context, movies, _) {

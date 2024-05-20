@@ -83,13 +83,6 @@ class _IndexPageState extends State<IndexPage> {
                   return MaterialPageRoute(
                     builder: (_) => MovieDetailsPage(movie: movie),
                   );
-                } else if (settings.name == Routes.movieWebViewRoute) {
-                  final movie = settings.arguments as Movie;
-                  return MaterialPageRoute(
-                    builder: (_) => MovieWebView(
-                      movie: movie,
-                    ),
-                  );
                 }
                 return null;
               },
@@ -107,13 +100,6 @@ class _IndexPageState extends State<IndexPage> {
                   return MaterialPageRoute(
                     builder: (_) => MovieDetailsPage(movie: movie),
                   );
-                } else if (settings.name == Routes.movieWebViewRoute) {
-                  final movie = settings.arguments as Movie;
-                  return MaterialPageRoute(
-                    builder: (_) => MovieWebView(
-                      movie: movie,
-                    ),
-                  );
                 }
                 return null;
               },
@@ -130,13 +116,6 @@ class _IndexPageState extends State<IndexPage> {
                   final movie = settings.arguments as Movie;
                   return MaterialPageRoute(
                     builder: (_) => MovieDetailsPage(movie: movie),
-                  );
-                } else if (settings.name == Routes.movieWebViewRoute) {
-                  final movie = settings.arguments as Movie;
-                  return MaterialPageRoute(
-                    builder: (_) => MovieWebView(
-                      movie: movie,
-                    ),
                   );
                 }
                 return null;
