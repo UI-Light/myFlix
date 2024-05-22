@@ -34,28 +34,36 @@ class _MovieWebViewState extends State<MovieWebView> {
       Uri.parse('https://vidsrc.to/embed/movie/${widget.movie.movieId}'),
     );
 
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   SystemChrome.setPreferredOrientations([
+  //     DeviceOrientation.landscapeRight,
+  //     DeviceOrientation.landscapeLeft,
+  //   ]);
+  // }
 
-  @override
-  void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   SystemChrome.setPreferredOrientations([
+  //     DeviceOrientation.portraitUp,
+  //   ]);
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: WebViewWidget(controller: controller),
+    return WillPopScope(
+      onWillPop: () async {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+        ]);
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: WebViewWidget(controller: controller),
+        ),
       ),
     );
   }

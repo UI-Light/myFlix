@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:myflix/core/models/movie_model.dart';
 import 'package:myflix/core/utils/routes.dart';
 import 'package:myflix/features/details/presentation/view/movie_details_page.dart';
-import 'package:myflix/features/details/presentation/widgets/movie_webview.dart';
 import 'package:myflix/features/home/presentation/view/home_page.dart';
 import 'package:myflix/features/search/presentation/view/search_page.dart';
 import 'package:myflix/features/watchlist/presentation/view/watchlist_page.dart';
@@ -32,7 +31,6 @@ class _IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        print('onwill pop ');
         final navigator = switch (selectedIndex) {
           0 => _homePageNavigatorKey,
           1 => _watchListNavigatorKey,

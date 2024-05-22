@@ -8,7 +8,9 @@ import 'package:myflix/features/details/presentation/widgets/backdrop_loading_ca
 import 'package:myflix/features/details/presentation/widgets/button.dart';
 import 'package:myflix/features/details/presentation/widgets/similar_movies_list.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
+import 'package:myflix/features/details/presentation/extensions/widgets_extension.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final Movie movie;
@@ -49,6 +51,13 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         await context.read<WatchListViewModel>().movieInWatchlist(widget.movie);
   }
 
+  void changeOrientation() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -58,11 +67,13 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CachedNetworkImage(
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) => [
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _SliverAppBarDelegate(
+            height: 280,
+            child: CachedNetworkImage(
               imageUrl: widget.movie.backdropUrl,
               imageBuilder: (context, imageProvider) {
                 return Container(
@@ -76,6 +87,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   child: IconButton(
                     onPressed: () {
+                      changeOrientation();
                       Navigator.of(context, rootNavigator: true).pushNamed(
                         Routes.movieWebViewRoute,
                         arguments: widget.movie,
@@ -94,92 +106,117 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               },
               errorWidget: (context, url, error) {
                 return const BackdropErrorCard();
-              }),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              children: [
-                Text(
-                  widget.movie.movieTitle,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                RichText(
-                  text: TextSpan(
-                    style: const TextStyle(fontSize: 16),
-                    text: widget.movie.year.substring(0, 4),
-                    children: [
-                      const TextSpan(
-                          text: ' • ',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      TextSpan(
-                          text:
-                              '${widget.movie.averageRating.toStringAsFixed(2)}/10',
-                          style: TextStyle(color: Colors.red[900])),
-                      const TextSpan(text: '  on TMDB'),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  widget.movie.overview,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Button(
-                      text: 'My List',
-                      content: ValueListenableBuilder(
-                          valueListenable: _movieInWatchList,
-                          builder: (context, value, _) {
-                            return Icon(
-                              value ? Icons.check : Icons.add,
-                              color: Colors.white,
-                            );
-                          }),
-                      onTap: () => saveMovie(widget.movie),
-                    ),
-                    Button(
-                      text: 'Watch',
-                      content: const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
-                        ),
-                      ),
-                      onTap: () {
-                        Navigator.of(context, rootNavigator: true).pushNamed(
-                          Routes.movieWebViewRoute,
-                          arguments: widget.movie,
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                //TODO: Fix similar movies scroll
-                ValueListenableBuilder(
-                    valueListenable: detailsViewModel.similarMovies,
-                    builder: (context, movies, _) {
-                      return SimilarMoviesListView(
-                        title: 'Similar Movies',
-                        movie: movies,
-                      );
-                    }),
-              ],
+              },
             ),
           ),
-        ],
-      ),
+        ),
+        Text(
+          widget.movie.movieTitle,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+        ).toSliver,
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 4),
+        ),
+        RichText(
+          text: TextSpan(
+            style: const TextStyle(fontSize: 16),
+            text: widget.movie.year.substring(0, 4),
+            children: [
+              const TextSpan(
+                  text: ' • ', style: TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(
+                  text: '${widget.movie.averageRating.toStringAsFixed(2)}/10',
+                  style: TextStyle(color: Colors.red[900])),
+              const TextSpan(text: '  on TMDB'),
+            ],
+          ),
+        ).toSliver,
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 16),
+        ),
+        Text(
+          widget.movie.overview,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+          ),
+        ).toSliver,
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 12),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Button(
+              text: 'My List',
+              content: ValueListenableBuilder(
+                  valueListenable: _movieInWatchList,
+                  builder: (context, value, _) {
+                    return Icon(
+                      value ? Icons.check : Icons.add,
+                      color: Colors.white,
+                    );
+                  }),
+              onTap: () => saveMovie(widget.movie),
+            ),
+            Button(
+              text: 'Watch',
+              content: const Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Icon(
+                  Icons.play_arrow,
+                  color: Colors.white,
+                ),
+              ),
+              onTap: () {
+                changeOrientation();
+                Navigator.of(context, rootNavigator: true).pushNamed(
+                  Routes.movieWebViewRoute,
+                  arguments: widget.movie,
+                );
+              },
+            ),
+          ],
+        ).toSliver,
+        const SliverToBoxAdapter(
+          child: SizedBox(height: 20),
+        ),
+      ],
+      body: ValueListenableBuilder(
+          valueListenable: detailsViewModel.similarMovies,
+          builder: (context, movies, _) {
+            return SimilarMoviesListView(
+              title: 'Similar Movies',
+              movie: movies,
+            );
+          }),
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final double height;
+  final Widget child;
+
+  _SliverAppBarDelegate({
+    required this.height,
+    required this.child,
+  });
+
+  @override
+  double get minExtent => height;
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox.expand(child: child);
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return height != oldDelegate.height || child != oldDelegate.child;
   }
 }
