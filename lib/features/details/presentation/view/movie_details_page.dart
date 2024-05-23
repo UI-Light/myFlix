@@ -9,6 +9,7 @@ import 'package:myflix/features/details/presentation/widgets/button.dart';
 import 'package:myflix/features/details/presentation/widgets/similar_movies_list.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
 import 'package:myflix/features/details/presentation/extensions/widgets_extension.dart';
+import 'package:myflix/features/details/presentation/widgets/sliver_delegate.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -51,11 +52,15 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         await context.read<WatchListViewModel>().movieInWatchlist(widget.movie);
   }
 
-  void changeOrientation() {
+  void onPressPlayButton() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
+    Navigator.of(context, rootNavigator: true).pushNamed(
+      Routes.movieWebViewRoute,
+      arguments: widget.movie,
+    );
   }
 
   @override
@@ -71,7 +76,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverPersistentHeader(
           pinned: true,
-          delegate: _SliverAppBarDelegate(
+          delegate: SliverDelegate(
             height: 280,
             child: CachedNetworkImage(
               imageUrl: widget.movie.backdropUrl,
@@ -87,11 +92,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   ),
                   child: IconButton(
                     onPressed: () {
-                      changeOrientation();
-                      Navigator.of(context, rootNavigator: true).pushNamed(
-                        Routes.movieWebViewRoute,
-                        arguments: widget.movie,
-                      );
+                      onPressPlayButton();
                     },
                     icon: const Icon(
                       Icons.play_circle,
@@ -170,11 +171,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 ),
               ),
               onTap: () {
-                changeOrientation();
-                Navigator.of(context, rootNavigator: true).pushNamed(
-                  Routes.movieWebViewRoute,
-                  arguments: widget.movie,
-                );
+                onPressPlayButton();
               },
             ),
           ],
@@ -192,31 +189,5 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             );
           }),
     );
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final double height;
-  final Widget child;
-
-  _SliverAppBarDelegate({
-    required this.height,
-    required this.child,
-  });
-
-  @override
-  double get minExtent => height;
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return height != oldDelegate.height || child != oldDelegate.child;
   }
 }
