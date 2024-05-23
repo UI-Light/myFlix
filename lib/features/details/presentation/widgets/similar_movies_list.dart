@@ -27,8 +27,7 @@ class _SimilarMoviesListViewState extends State<SimilarMoviesListView> {
           ),
         ),
         const SizedBox(height: 4),
-        SizedBox(
-          height: 300,
+        Flexible(
           child: GridView.builder(
             padding: EdgeInsets.zero,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
