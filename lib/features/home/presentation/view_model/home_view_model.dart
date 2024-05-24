@@ -19,13 +19,22 @@ class HomeViewModel {
   final ValueNotifier<List<Movie>> _upcomingMovies = ValueNotifier([]);
   ValueNotifier<List<Movie>> get upcomingMovies => _upcomingMovies;
 
+  final ValueNotifier<bool> _moviesLoading = ValueNotifier(false);
+  ValueNotifier<bool> get moviesLoading => _moviesLoading;
+
+  void setMovieLoading(bool val) {
+    _moviesLoading.value = val;
+  }
+
   Future<void> getNowPlaying() async {
     try {
+      setMovieLoading(true);
       final movies = await GetIt.I<HomeRepository>().getNowPlaying();
       _trendingMovies.value = movies;
     } catch (e) {
       _logger.log(e);
     }
+    setMovieLoading(false);
   }
 
   Future<void> getTopRatedMovies() async {

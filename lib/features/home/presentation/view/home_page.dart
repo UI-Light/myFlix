@@ -33,49 +33,60 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: RefreshIndicator(
-        color: Colors.black,
-        onRefresh: () async {
-          await homeViewModel.refresh();
+      body: ValueListenableBuilder(
+        valueListenable: homeViewModel.moviesLoading,
+        builder: (context, loading, _) {
+          return loading
+              ? Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation(Colors.red[900]),
+                  ),
+                )
+              : RefreshIndicator(
+                  color: Colors.black,
+                  onRefresh: () async {
+                    await homeViewModel.refresh();
+                  },
+                  //TODO: Handle No internet connection state
+                  child: ListView(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    children: [
+                      ValueListenableBuilder(
+                          valueListenable: homeViewModel.trendingMovies,
+                          builder: (context, trendingMovies, _) {
+                            return MovieListView(
+                              title: 'Trending',
+                              movies: trendingMovies,
+                            );
+                          }),
+                      ValueListenableBuilder(
+                          valueListenable: homeViewModel.topRatedMovies,
+                          builder: (context, topRatedMovies, _) {
+                            return MovieListView(
+                              title: 'Top Rated',
+                              movies: topRatedMovies,
+                            );
+                          }),
+                      ValueListenableBuilder(
+                          valueListenable: homeViewModel.popularMovies,
+                          builder: (context, popularMovies, _) {
+                            return MovieListView(
+                              title: 'Popular',
+                              movies: popularMovies,
+                            );
+                          }),
+                      ValueListenableBuilder(
+                          valueListenable: homeViewModel.upcomingMovies,
+                          builder: (context, upcomingMovies, _) {
+                            return MovieListView(
+                              title: 'Upcoming',
+                              movies: upcomingMovies,
+                            );
+                          }),
+                    ],
+                  ),
+                );
         },
-        //TODO: Handle No internet connection state
-        child: ListView(
-          padding: const EdgeInsets.only(left: 8.0),
-          children: [
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.trendingMovies,
-                builder: (context, trendingMovies, _) {
-                  return MovieListView(
-                    title: 'Trending',
-                    movies: trendingMovies,
-                  );
-                }),
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.topRatedMovies,
-                builder: (context, topRatedMovies, _) {
-                  return MovieListView(
-                    title: 'Top Rated',
-                    movies: topRatedMovies,
-                  );
-                }),
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.popularMovies,
-                builder: (context, popularMovies, _) {
-                  return MovieListView(
-                    title: 'Popular',
-                    movies: popularMovies,
-                  );
-                }),
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.upcomingMovies,
-                builder: (context, upcomingMovies, _) {
-                  return MovieListView(
-                    title: 'Upcoming',
-                    movies: upcomingMovies,
-                  );
-                }),
-          ],
-        ),
       ),
     );
   }
