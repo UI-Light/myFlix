@@ -22,19 +22,26 @@ class HomeViewModel {
   final ValueNotifier<bool> _moviesLoading = ValueNotifier(false);
   ValueNotifier<bool> get moviesLoading => _moviesLoading;
 
+  bool firstException = false;
+  bool secondException = false;
+  bool thirdException = false;
+  bool fourthException = false;
+  final ValueNotifier<bool> _similarError = ValueNotifier(false);
+  ValueNotifier<bool> get similarError => _similarError;
+
   void setMovieLoading(bool val) {
     _moviesLoading.value = val;
   }
 
   Future<void> getNowPlaying() async {
     try {
-      setMovieLoading(true);
       final movies = await GetIt.I<HomeRepository>().getNowPlaying();
       _trendingMovies.value = movies;
     } catch (e) {
       _logger.log(e);
+      firstException = true;
+      checkForException();
     }
-    setMovieLoading(false);
   }
 
   Future<void> getTopRatedMovies() async {
@@ -43,6 +50,8 @@ class HomeViewModel {
       _topRatedMovies.value = movies;
     } catch (e) {
       _logger.log(e);
+      secondException = true;
+      checkForException();
     }
   }
 
@@ -52,6 +61,8 @@ class HomeViewModel {
       _popularMovies.value = movies;
     } catch (e) {
       _logger.log(e);
+      thirdException = true;
+      checkForException();
     }
   }
 
@@ -61,21 +72,35 @@ class HomeViewModel {
       _upcomingMovies.value = movies;
     } catch (e) {
       _logger.log(e);
+      fourthException = true;
+      checkForException();
     }
   }
 
   Future<void> initialize() async {
+    setMovieLoading(true);
     await getNowPlaying();
     await getTopRatedMovies();
     await getPopularMovies();
     await getUpcomingMovies();
+    setMovieLoading(false);
   }
 
   Future<void> refresh() async {
+    _similarError.value = false;
     trendingMovies.value = [];
     topRatedMovies.value = [];
     popularMovies.value = [];
     upcomingMovies.value = [];
     await initialize();
+  }
+
+  Future<void> checkForException() async {
+    if (firstException &&
+        secondException &&
+        thirdException &&
+        fourthException) {
+      _similarError.value = true;
+    }
   }
 }
