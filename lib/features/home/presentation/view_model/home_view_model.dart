@@ -22,12 +22,10 @@ class HomeViewModel {
   final ValueNotifier<bool> _moviesLoading = ValueNotifier(false);
   ValueNotifier<bool> get moviesLoading => _moviesLoading;
 
-  bool firstException = false;
-  bool secondException = false;
-  bool thirdException = false;
-  bool fourthException = false;
-  final ValueNotifier<bool> _similarError = ValueNotifier(false);
-  ValueNotifier<bool> get similarError => _similarError;
+  int count = 0;
+
+  final ValueNotifier<bool> _hasError = ValueNotifier(false);
+  ValueNotifier<bool> get hasError => _hasError;
 
   void setMovieLoading(bool val) {
     _moviesLoading.value = val;
@@ -39,7 +37,7 @@ class HomeViewModel {
       _trendingMovies.value = movies;
     } catch (e) {
       _logger.log(e);
-      firstException = true;
+      count += 1;
       checkForException();
     }
   }
@@ -50,7 +48,7 @@ class HomeViewModel {
       _topRatedMovies.value = movies;
     } catch (e) {
       _logger.log(e);
-      secondException = true;
+      count += 1;
       checkForException();
     }
   }
@@ -61,7 +59,7 @@ class HomeViewModel {
       _popularMovies.value = movies;
     } catch (e) {
       _logger.log(e);
-      thirdException = true;
+      count += 1;
       checkForException();
     }
   }
@@ -72,7 +70,7 @@ class HomeViewModel {
       _upcomingMovies.value = movies;
     } catch (e) {
       _logger.log(e);
-      fourthException = true;
+      count += 1;
       checkForException();
     }
   }
@@ -87,7 +85,8 @@ class HomeViewModel {
   }
 
   Future<void> refresh() async {
-    _similarError.value = false;
+    count = 0;
+    _hasError.value = false;
     trendingMovies.value = [];
     topRatedMovies.value = [];
     popularMovies.value = [];
@@ -95,12 +94,7 @@ class HomeViewModel {
     await initialize();
   }
 
-  Future<void> checkForException() async {
-    if (firstException &&
-        secondException &&
-        thirdException &&
-        fourthException) {
-      _similarError.value = true;
-    }
+  void checkForException() {
+    _hasError.value = count == 4;
   }
 }

@@ -34,9 +34,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: ValueListenableBuilder(
-          valueListenable: homeViewModel.similarError,
-          builder: (context, similar, _) {
-            return similar
+          valueListenable: homeViewModel.hasError,
+          builder: (context, hasError, _) {
+            return hasError
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
