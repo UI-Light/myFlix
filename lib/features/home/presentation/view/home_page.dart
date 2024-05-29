@@ -33,50 +33,94 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: RefreshIndicator(
-        color: Colors.black,
-        onRefresh: () async {
-          await homeViewModel.refresh();
-        },
-        //TODO: Handle No internet connection state
-        child: ListView(
-          padding: const EdgeInsets.only(left: 8.0),
-          children: [
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.trendingMovies,
-                builder: (context, trendingMovies, _) {
-                  return MovieListView(
-                    title: 'Trending',
-                    movies: trendingMovies,
+      body: ValueListenableBuilder(
+          valueListenable: homeViewModel.hasError,
+          builder: (context, hasError, _) {
+            return hasError
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Problem loading movies',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            homeViewModel.refresh();
+                          },
+                          child: const Text(
+                            'Retry',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : ValueListenableBuilder(
+                    valueListenable: homeViewModel.moviesLoading,
+                    builder: (context, loading, _) {
+                      return loading
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.red[900]),
+                              ),
+                            )
+                          : RefreshIndicator(
+                              color: Colors.black,
+                              onRefresh: () async {
+                                await homeViewModel.refresh();
+                              },
+                              //TODO: Handle No internet connection state
+                              child: ListView(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                children: [
+                                  ValueListenableBuilder(
+                                      valueListenable:
+                                          homeViewModel.trendingMovies,
+                                      builder: (context, trendingMovies, _) {
+                                        return MovieListView(
+                                          title: 'Trending',
+                                          movies: trendingMovies,
+                                        );
+                                      }),
+                                  ValueListenableBuilder(
+                                      valueListenable:
+                                          homeViewModel.topRatedMovies,
+                                      builder: (context, topRatedMovies, _) {
+                                        return MovieListView(
+                                          title: 'Top Rated',
+                                          movies: topRatedMovies,
+                                        );
+                                      }),
+                                  ValueListenableBuilder(
+                                      valueListenable:
+                                          homeViewModel.popularMovies,
+                                      builder: (context, popularMovies, _) {
+                                        return MovieListView(
+                                          title: 'Popular',
+                                          movies: popularMovies,
+                                        );
+                                      }),
+                                  ValueListenableBuilder(
+                                      valueListenable:
+                                          homeViewModel.upcomingMovies,
+                                      builder: (context, upcomingMovies, _) {
+                                        return MovieListView(
+                                          title: 'Upcoming',
+                                          movies: upcomingMovies,
+                                        );
+                                      }),
+                                ],
+                              ),
+                            );
+                    },
                   );
-                }),
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.topRatedMovies,
-                builder: (context, topRatedMovies, _) {
-                  return MovieListView(
-                    title: 'Top Rated',
-                    movies: topRatedMovies,
-                  );
-                }),
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.popularMovies,
-                builder: (context, popularMovies, _) {
-                  return MovieListView(
-                    title: 'Popular',
-                    movies: popularMovies,
-                  );
-                }),
-            ValueListenableBuilder(
-                valueListenable: homeViewModel.upcomingMovies,
-                builder: (context, upcomingMovies, _) {
-                  return MovieListView(
-                    title: 'Upcoming',
-                    movies: upcomingMovies,
-                  );
-                }),
-          ],
-        ),
-      ),
+          }),
     );
   }
 }

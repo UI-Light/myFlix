@@ -9,7 +9,7 @@ import 'package:myflix/core/utils/logger.dart';
 import 'package:myflix/features/details/presentation/view/movie_details_page.dart';
 import 'package:myflix/features/details/presentation/widgets/movie_webview.dart';
 import 'package:myflix/features/watchlist/presentation/view_model/watchlist_view_model.dart';
-import 'package:myflix/views/index_page.dart';
+import 'package:myflix/views/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
@@ -42,8 +42,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        //TODO: splash screen
-        Routes.homeRoute: (context) => const IndexPage(),
+        Routes.splashRoute: (context) => const SplashScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == Routes.detailsRoute) {
