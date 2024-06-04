@@ -31,7 +31,7 @@ class SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Text(
-          "Myflix",
+          "MYFLIX",
           style: TextStyle(
             color: Colors.red[900],
             fontSize: 40,
