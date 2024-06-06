@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myflix/core/data/connectivity_service.dart';
+import 'package:myflix/core/services/connectivity_service.dart';
 import 'package:myflix/features/home/presentation/view_model/home_view_model.dart';
 import 'package:myflix/features/home/presentation/widgets/movie_list_view.dart';
 
