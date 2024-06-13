@@ -41,10 +41,7 @@ class _MovieWebViewState extends State<MovieWebView>
     );
 
   void pipAvailability() async {
-    print('initial value of canUsepip : $canUsePiP');
-    print('checking for pip availabilty');
     canUsePiP = await floating.isPipAvailable;
-    print('Check for pip availabilty done: $canUsePiP');
   }
 
   @override
@@ -63,8 +60,6 @@ class _MovieWebViewState extends State<MovieWebView>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print('current AppLifecycle state : $state');
-    print('canusePiP status: $canUsePiP');
     if (state == AppLifecycleState.inactive && canUsePiP == true) {
       floating.enable(
         EnableManual(
