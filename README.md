@@ -6,9 +6,11 @@ A Flutter application for movie discovery and streaming using [TMDB's](https://w
 - Access movie information, including the title, overview, release year, and TMDb rating in `MovieDetailsPage`
 - Explore similar movies, if available, for any selected movie in `SimilarMoviesList`
 - Stream a selected movie in `MovieWebView`
+- Enable picture-in-picture mode in `MovieWebView`
 - Add movies to your watchlist from `MovieDetailsPage` and view this list in `WatchListPage`. This data is stored locally using Hive.
 - Search for movies in `SearchPage`
 - Views for loading and error states across the app with retry options.
+- Screen orientation locked to landscape mode during streaming.
 
 ## Getting Started
 To build and run this app successfully, you need to take the following steps after cloning the project:
@@ -35,9 +37,9 @@ flutter run --dart-define="BASE_URL=https://api.themoviedb.org/3/" --dart-define
 <img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/homepage.jpg"  width="32.5%"> 
 <img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/details.jpg"  width="32.5%"> 
 <img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/movie_webview.jpg"  width="32.5%"> 
-<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/pip_mode.jpg"  width="32.5%"> 
 </p>
 <p float="left">
+<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/pip_mode.jpg"  width="32.5%"> 
 <img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/watchlist.jpg"  width="32.5%"> 
 <img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/search.jpg"  width="32.5%">
 </p> 
