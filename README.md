@@ -1,16 +1,43 @@
-# myflix
+# Myflix
+A Flutter application for movie discovery and streaming using [TMDB's](https://www.themoviedb.org/) API  and [Vidsrc](https://vidsrc.to/) API. Myflix is structured using a feature-based architecture in conjunction with the Model-View-ViewModel (MVVM) architecture.
 
-A new Flutter project.
+## Features
+- Discover popular, trending, top rated and upcoming movies in `HomePage`
+- Access movie information, including the title, overview, release year, and TMDb rating in `MovieDetailsPage`
+- Explore similar movies, if available, for any selected movie in `SimilarMoviesList`
+- Stream a selected movie in `MovieWebView`
+- Add movies to your watchlist from `MovieDetailsPage` and view this list in `WatchListPage`. This data is stored locally using Hive.
+- Search for movies in `SearchPage`
+- Views for loading and error states across the app with retry options.
 
 ## Getting Started
+To build and run this app successfully, you need to take the following steps after cloning the project:
 
-This project is a starting point for a Flutter application.
+- Open the project in VScode
+- Create a free [TMDB](https://www.themoviedb.org/signup) account
+- Once logged in to TMBD, click on your avatar in the top right section
+    - Click on `Settings`
+    - Click on `API` in the sidebar by the left
+    - Copy the API Read Access Token
+- Back to VScode
+Replace the placeholders and run:
+```bash
+flutter run --release --dart-define="BASE_URL=https://api.themoviedb.org/3/" --dart-define="TMDB_READ_ACCESS_TOKEN={your_read_access_token}"
+```
+OR (debug)
+```bash
+flutter run --dart-define="BASE_URL=https://api.themoviedb.org/3/" --dart-define="TMDB_READ_ACCESS_TOKEN={your_read_access_token}"
+```
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots 
+<p float="left">
+<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/homepage.jpg"  width="32.5%"> 
+<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/details.jpg"  width="32.5%"> 
+<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/movie_webview.jpg"  width="32.5%"> 
+<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/pip_mode.jpg"  width="32.5%"> 
+</p>
+<p float="left">
+<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/watchlist.jpg"  width="32.5%"> 
+<img src="https://raw.githubusercontent.com/UI-Light/myFlix/main/screenshots/search.jpg"  width="32.5%">
+</p> 
