@@ -36,7 +36,7 @@ dependencies:
   provider: ^6.1.2
   webview_flutter: ^4.5.0
   connectivity_plus: ^5.0.2
-  fluttertoast: ^8.2.5
+  floating: ^3.0.0
   flutter:
     sdk: flutter
 

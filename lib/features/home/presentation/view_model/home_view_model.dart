@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:myflix/core/data/connectivity_service.dart';
 import 'package:myflix/core/models/movie_model.dart';
 import 'package:myflix/core/utils/logger.dart';
 import 'package:myflix/features/home/data/home_repository.dart';
 
 class HomeViewModel {
   final _logger = getLogger(HomeViewModel);
-  final connectivityService = ConnectivityService();
 
   final ValueNotifier<List<Movie>> _trendingMovies = ValueNotifier([]);
   ValueNotifier<List<Movie>> get trendingMovies => _trendingMovies;
