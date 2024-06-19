@@ -30,7 +30,8 @@ OR (debug)
 ```bash
 flutter run --dart-define="BASE_URL=https://api.themoviedb.org/3/" --dart-define="TMDB_READ_ACCESS_TOKEN={your_read_access_token}"
 ```
-
+## Demo
+https://github.com/UI-Light/myFlix/assets/63761764/e051e29e-dd6e-4d7c-a75d-2e27826dd613
 
 ## Screenshots 
 <p float="left">
